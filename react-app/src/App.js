@@ -56,7 +56,10 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      mode:'read',
+      selected_content_id:2,
       subject:{title:'WEB',sub:'world wild web'},
+      welcome:{title:'Welcome',desc:'Hello, React'},
       contents:[
         {id:1,title:'HTML',desc:'HTML is for information'},
         {id:2,title:'CSS',desc:'CSS is for design'},
@@ -65,11 +68,43 @@ class App extends Component {
     }
   }
   render() {
+    console.log('App render');
+    let _title, _desc = null;
+    if(this.state.mode === 'welcome') {//=== : 값과 타입이 모두 동일.
+      _title = this.state.welcome.title;
+      _desc = this.state.welcome.desc;
+    }else if(this.state.mode === 'read') {
+     /*  _title = this.state.contents[0].title;
+      _desc = this.state.contents[0].desc; */
+      let i = 0;
+      while(i < this.state.contents.length) {
+        let data = this.state.contents[i];
+        if(data.id === this.state.selected_content_id){
+          _title = data.title;
+          _desc = data.desc;
+          break;
+        }
+        i = i + 1;
+      }
+    }
     return (
       <div>
-        <Subject title={this.state.subject.title} sub={this.state.subject.sub}></Subject> {/* == <Subject/> */}
-        <TOC data={this.state.contents}></TOC>
-        <CONTENTS title="HTML" desc="HTML is HyperText MarkUp Language."></CONTENTS>
+        <Subject title={this.state.subject.title} 
+                 sub={this.state.subject.sub}
+                 onChangePage={function(){
+                  this.setState({mode:'welcome'});
+                 }.bind(this)}>
+        </Subject>
+        <TOC data={this.state.contents}
+             onChangePage={function(id){
+              this.setState(
+                {
+                  mode:'read', selected_content_id:Number(id)
+                } 
+              );
+             }.bind(this)}
+        ></TOC>
+        <CONTENTS title={_title} desc={_desc}></CONTENTS>
       </div>
 
       //<div>hello world</div> 상위 태그가 하나인 구조로 만들어야함.    

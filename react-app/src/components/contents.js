@@ -2,6 +2,7 @@ import React,{Component} from 'react';
 
 class CONTENTS extends Component{
     render() {
+      console.log('Contents render');
       return(
        /*  <article>
           <h2>HTML</h2>
