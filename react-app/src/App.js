@@ -2,9 +2,11 @@
 import './App.css';
 import React,{Component} from 'react';
 import TOC from './components/TOC';
-import CONTENTS from './components/contents';
+import ReadContent from './components/ReadContent';
 import Subject from './components/subject';
 import Control from './components/Control';
+import CreateContent from './components/CreateContent';
+import UpdateContent from './components/UpdateComtent';
 
 //컴포넌트는 분리해서 따로 만들어줌.
 /* class Subject extends Component{
@@ -55,6 +57,7 @@ import Control from './components/Control';
 class App extends Component {
   constructor(props) {
     super(props);
+    this.max_content_id = 3;
     this.state = {
       mode:'read',
       selected_content_id:2,
@@ -69,10 +72,11 @@ class App extends Component {
   }
   render() {
     console.log('App render');
-    let _title, _desc = null;
+    let _title, _desc = null, _article;
     if(this.state.mode === 'welcome') {//=== : 값과 타입이 모두 동일.
       _title = this.state.welcome.title;
       _desc = this.state.welcome.desc;
+      _article = <ReadContent title={_title} desc={_desc}></ReadContent>;
     }else if(this.state.mode === 'read') {
      /*  _title = this.state.contents[0].title;
       _desc = this.state.contents[0].desc; */
@@ -86,6 +90,22 @@ class App extends Component {
         }
         i = i + 1;
       }
+      _article = <ReadContent title={_title} desc={_desc}></ReadContent>;
+    }else if(this.state.mode === 'create') {
+      _article = <CreateContent onSubmit={function(_title,_desc){
+        this.max_content_id = this.max_content_id + 1;
+       /*  this.state.contents.push(
+          {id:this.max_content_id, title:_title, desc:_desc}
+        ); */
+        let _contents = this.state.contents.concat(
+          {id:this.max_content_id, title:_title, desc:_desc}
+        );
+        this.setState({
+          //contents:this.state.contents
+          contents : _contents
+        })
+      }.bind(this)}>
+      </CreateContent>
     }
     return (
       <div>
@@ -111,7 +131,7 @@ class App extends Component {
               });
             }.bind(this)}>
         </Control>
-        <CONTENTS title={_title} desc={_desc}></CONTENTS>
+        {_article}
       </div>
 
       //<div>hello world</div> 상위 태그가 하나인 구조로 만들어야함.    
