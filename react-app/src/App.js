@@ -4,7 +4,7 @@ import React,{Component} from 'react';
 import TOC from './components/TOC';
 import CONTENTS from './components/contents';
 import Subject from './components/subject';
-
+import Control from './components/Control';
 
 //컴포넌트는 분리해서 따로 만들어줌.
 /* class Subject extends Component{
@@ -99,11 +99,18 @@ class App extends Component {
              onChangePage={function(id){
               this.setState(
                 {
-                  mode:'read', selected_content_id:Number(id)
+                  mode:'read', 
+                  selected_content_id:Number(id)
                 } 
               );
-             }.bind(this)}
+            }.bind(this)}
         ></TOC>
+        <Control onChangeMode={function(_mode){
+              this.setState({
+                mode:_mode
+              });
+            }.bind(this)}>
+        </Control>
         <CONTENTS title={_title} desc={_desc}></CONTENTS>
       </div>
 

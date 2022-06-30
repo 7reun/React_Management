@@ -13,12 +13,11 @@ class TOC extends Component{
                   <a href={"/content/" + data[i].id} 
                      data-id = {data[i].id}
                      onClick={function(e){
-                        e.preventDefault();     
-                                      
+                        e.preventDefault();                                         
                         this.props.onChangePage(e.target.dataset.id);
                   }.bind(this)}
-                  >{data[i].title}</a>
-                </li>);
+                  
+                  >{data[i].title}</a></li>);
         i = i + 1;
       }
         return(
